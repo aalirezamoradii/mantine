@@ -1,6 +1,6 @@
 {
-  "name": "mantine-jalali-datepicker-test",
-  "version": "1.0.1",
+  "name": "mantine-jalali-datepicker",
+  "version": "1.0.0",
   "description": "Calendars, date and time pickers based on Mantine components",
   "homepage": "https://github.com/aalirezamoradii/mantine",
   "license": "MIT",
@@ -42,8 +42,7 @@
   },
   "repository": {
     "url": "https://github.com/aalirezamoradii/mantine.git",
-    "type": "git",
-    "directory": "packages/@mantine/dates"
+    "type": "git"
   },
   "peerDependencies": {
     "@mantine/core": "7.3.1",

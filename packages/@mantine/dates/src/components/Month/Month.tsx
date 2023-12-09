@@ -172,7 +172,7 @@ export const Month = factory<MonthFactory>((_props, ref) => {
   });
 
   const ctx = useDatesContext();
-  const dates = getMonthDays(month, ctx.getFirstDayOfWeek(firstDayOfWeek), ctx.getLocale(locale));
+  const dates = getMonthDays(month, ctx.getFirstDayOfWeek(firstDayOfWeek), undefined, ctx.getLocale(locale));
 
   const dateInTabOrder = getDateInTabOrder(
     dates,
@@ -181,7 +181,8 @@ export const Month = factory<MonthFactory>((_props, ref) => {
     getDayProps,
     excludeDate,
     hideOutsideDates,
-    month
+    month,
+    ctx.getLocale(locale)
   );
 
   const { resolvedClassNames, resolvedStyles } = useResolvedStylesApi<MonthFactory>({
@@ -192,7 +193,7 @@ export const Month = factory<MonthFactory>((_props, ref) => {
 
   const rows = dates.map((row, rowIndex) => {
     const cells = row.map((date, cellIndex) => {
-      const outside = !isSameMonth(date, month);
+      const outside = !isSameMonth(date, month, ctx.getLocale(locale));
       const ariaLabel =
         getDayAriaLabel?.(date) ||
         dayjs(date)

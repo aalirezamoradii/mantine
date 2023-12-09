@@ -11,7 +11,8 @@ export function getDateInTabOrder(
   getDateControlProps: ((date: Date) => Partial<DayProps>) | undefined,
   excludeDate: ((date: Date) => boolean) | undefined,
   hideOutsideDates: boolean | undefined,
-  month: Date
+  month: Date,
+  locale?: string
 ) {
   const enabledDates = dates
     .flat()
@@ -21,7 +22,7 @@ export function getDateInTabOrder(
         isAfterMinDate(date, minDate) &&
         !excludeDate?.(date) &&
         !getDateControlProps?.(date)?.disabled &&
-        (!hideOutsideDates || isSameMonth(date, month))
+        (!hideOutsideDates || isSameMonth(date, month, locale))
     );
 
   const selectedDate = enabledDates.find((date) => getDateControlProps?.(date)?.selected);

@@ -110,7 +110,7 @@ export const DatePickerInput: DatePickerInputComponent = factory<DatePickerInput
     return (
       <PickerInputBase
         formattedValue={
-          ctx.getLocale(locale) === 'fa'
+          ctx.getLocale(locale) === 'fa' && _value
               ? new Intl.DateTimeFormat('fa-IR', { dateStyle: 'long' }).format(_value)
               : formattedValue
         }

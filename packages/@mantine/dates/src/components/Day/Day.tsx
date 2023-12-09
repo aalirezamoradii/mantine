@@ -135,9 +135,9 @@ export const Day = factory<DayFactory>((_props, ref) => {
       unstyled={unstyled}
       {...others}
     >
-      {ctx.getLocale() === 'fa'
+      {renderDay?.(date) || ctx.getLocale() === 'fa'
           ? new Intl.DateTimeFormat('fa-IR', { day: 'numeric' }).format(date)
-          : renderDay?.(date) || date.getDate()
+          : date.getDate()
       }
     </UnstyledButton>
   );

@@ -39,10 +39,18 @@ export function getMonthDays(
   const currentMonth = month.getMonth();
   const startOfMonth = locale && locale === 'fa'
       ? startOfMonthJalali(month)
-      : new Date(month.getFullYear(), currentMonth, 1);
+      : shiftTimezone(
+          'add',
+          new Date(month.getFullYear(), currentMonth, 1),
+          timezone
+      );
   const endOfMonth = locale && locale === 'fa'
       ? endOfMonthJalali(month)
-      : new Date(month.getFullYear(), month.getMonth() + 1, 0);
+      : shiftTimezone(
+          'add',
+          new Date(month.getFullYear(), month.getMonth() + 1, 0),
+          timezone
+      );
   const endDate = getEndOfWeek(endOfMonth, firstDayOfWeek);
   const date = getStartOfWeek(startOfMonth, firstDayOfWeek);
   const weeks: Date[][] = [];
