@@ -107,9 +107,16 @@ export const MonthsList = factory<MonthsListFactory>((_props, ref) => {
     rootSelector: 'monthsList',
   });
 
+  const moveArr = (arr: Date[][], from: number, to: number) => {
+    arr.splice(to, 0, arr.splice(from, 1)[0]);
+    return arr;
+  };
+
   const ctx = useDatesContext();
 
-  const months = getMonthsData(year);
+  const months = ctx.getLocale(locale) === 'fa'
+      ? moveArr(getMonthsData(year), 0, 3)
+      : getMonthsData(year);
 
   const monthInTabOrder = getMonthInTabOrder(months, minDate, maxDate, getMonthControlProps);
 
@@ -150,7 +157,10 @@ export const MonthsList = factory<MonthsListFactory>((_props, ref) => {
             }}
             tabIndex={__preventFocus || !isMonthInTabOrder ? -1 : 0}
           >
-            {dayjs(month).locale(ctx.getLocale(locale)).format(monthsListFormat)}
+            {ctx.getLocale(locale) === 'fa'
+                ? new Intl.DateTimeFormat('fa-IR', { month: 'short' }).format(month)
+                : dayjs(month).locale(ctx.getLocale(locale)).format(monthsListFormat)
+            }
           </PickerControl>
         </td>
       );

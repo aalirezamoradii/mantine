@@ -130,12 +130,16 @@ export const DecadeLevel = factory<DecadeLevelFactory>((_props, ref) => {
     <Box data-decade-level size={size} ref={ref} {...others}>
       <CalendarHeader
         label={
-          typeof decadeLabelFormat === 'function'
-            ? decadeLabelFormat(startOfDecade, endOfDecade)
-            : `${formatDecade(startOfDecade, decadeLabelFormat!)} – ${formatDecade(
-                endOfDecade,
-                decadeLabelFormat!
-              )}`
+          ctx.getLocale(locale) === 'fa'
+              ? `${new Intl.DateTimeFormat('fa-IR', { year: 'numeric' }).format(
+                  startOfDecade
+              )} - ${new Intl.DateTimeFormat('fa-IR', { year: 'numeric' }).format(endOfDecade)}`
+              : typeof decadeLabelFormat === 'function'
+                  ? decadeLabelFormat(startOfDecade, endOfDecade)
+                  : `${formatDecade(startOfDecade, decadeLabelFormat!)} – ${formatDecade(
+                      endOfDecade,
+                      decadeLabelFormat!
+                  )}`
         }
         __preventFocus={__preventFocus}
         __stopPropagation={__stopPropagation}

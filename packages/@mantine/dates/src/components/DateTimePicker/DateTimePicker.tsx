@@ -194,7 +194,11 @@ export const DateTimePicker = factory<DateTimePickerFactory>((_props, ref) => {
 
   return (
     <PickerInputBase
-      formattedValue={formattedValue}
+      formattedValue={
+        ctx.getLocale(locale) === 'fa'
+            ? new Intl.DateTimeFormat('fa-IR', { dateStyle: 'long', timeStyle: 'short' }).format(_value)
+            : formattedValue
+      }
       dropdownOpened={dropdownOpened}
       dropdownHandlers={dropdownHandlers}
       classNames={resolvedClassNames}

@@ -172,7 +172,7 @@ export const Month = factory<MonthFactory>((_props, ref) => {
   });
 
   const ctx = useDatesContext();
-  const dates = getMonthDays(month, ctx.getFirstDayOfWeek(firstDayOfWeek));
+  const dates = getMonthDays(month, ctx.getFirstDayOfWeek(firstDayOfWeek), ctx.getLocale(locale));
 
   const dateInTabOrder = getDateInTabOrder(
     dates,
