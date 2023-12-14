@@ -6,10 +6,10 @@ Calendars, date and time pickers
 
 ```bash
 # With yarn
-yarn add mantine-jalali-datepicker dayjs
+yarn add mantine-dates-jalali dayjs
 
 # With npm
-npm install mantine-jalali-datepicker dayjs
+npm install mantine-dates-jalali dayjs
 ```
 
 ## License
