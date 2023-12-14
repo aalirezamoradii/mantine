@@ -2,13 +2,13 @@ import React, { forwardRef } from 'react';
 import {
   Box,
   BoxProps,
-  useStyles,
-  StylesApiProps,
   ElementProps,
-  MantineSize,
+  Factory,
   getFontSize,
   getSize,
-  Factory,
+  MantineSize,
+  StylesApiProps,
+  useStyles,
 } from '../../core';
 import { Input } from '../Input';
 import classes from './InlineInput.module.css';
@@ -94,7 +94,7 @@ export const InlineInput = forwardRef<HTMLDivElement, InlineInputProps>(
         <div {...getStyles('body')}>
           {children}
 
-          <div {...getStyles('labelWrapper')}>
+          <div {...getStyles('labelWrapper')} data-disabled={disabled || undefined}>
             {label && (
               <label {...getStyles('label')} data-disabled={disabled || undefined} htmlFor={id}>
                 {label}

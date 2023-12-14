@@ -1,22 +1,22 @@
 import React from 'react';
 import {
   Box,
-  MantineSize,
-  MantineColor,
   BoxProps,
-  useProps,
-  getThemeColor,
-  StylesApiProps,
-  useStyles,
-  factory,
-  getSize,
   createVarsResolver,
+  factory,
   Factory,
+  getSize,
+  getThemeColor,
+  MantineColor,
+  MantineSize,
+  StylesApiProps,
+  useProps,
+  useStyles,
 } from '../../core';
-import { Bars } from './loaders/Bars';
-import { Oval } from './loaders/Oval';
-import { Dots } from './loaders/Dots';
 import type { MantineLoader, MantineLoadersRecord } from './Loader.types';
+import { Bars } from './loaders/Bars';
+import { Dots } from './loaders/Dots';
+import { Oval } from './loaders/Oval';
 import classes from './Loader.module.css';
 
 export type LoaderStylesNames = 'root';
@@ -123,5 +123,6 @@ export const Loader = factory<LoaderFactory>((_props, ref) => {
   );
 });
 
+Loader.defaultLoaders = defaultLoaders;
 Loader.classes = classes;
 Loader.displayName = '@mantine/core/Loader';

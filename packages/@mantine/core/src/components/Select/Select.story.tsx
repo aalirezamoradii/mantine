@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Select } from './Select';
 import { Button } from '../Button';
+import { Select } from './Select';
 
 export default { title: 'Select' };
 
@@ -24,6 +24,7 @@ export function EmptyOptionValue() {
           { value: '', label: 'Empty value' },
           { value: 'test', label: 'Not empty' },
         ]}
+        defaultValue=""
         placeholder="Select value"
       />
     </div>

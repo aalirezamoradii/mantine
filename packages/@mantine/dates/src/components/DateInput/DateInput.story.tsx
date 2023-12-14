@@ -1,10 +1,13 @@
 import dayjs from 'dayjs';
+
 import 'dayjs/locale/ru';
-import React, { useState } from 'react';
+
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { TextInput, Button, Group } from '@mantine/core';
-import { DateInput } from './DateInput';
+import React, { useState } from 'react';
+import { Button, Group, TextInput } from '@mantine/core';
+import { DatePickerInput } from '../DatePickerInput';
 import { DatesProvider } from '../DatesProvider';
+import { DateInput } from './DateInput';
 
 dayjs.extend(customParseFormat);
 
@@ -14,6 +17,15 @@ export function Usage() {
   return (
     <div style={{ padding: 40, maxWidth: 400 }}>
       <DateInput placeholder="Enter date" defaultDate={new Date(2022, 3, 11)} />
+    </div>
+  );
+}
+
+export function CloseButton() {
+  return (
+    <div style={{ padding: 40, maxWidth: 400 }}>
+      <DateInput placeholder="Enter date" defaultValue={new Date(2022, 3, 11)} clearable />
+      <DatePickerInput placeholder="Enter date" defaultValue={new Date(2022, 3, 11)} clearable />
     </div>
   );
 }

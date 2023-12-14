@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { IconGauge, IconFingerprint, IconActivity, IconChevronRight } from '@tabler/icons-react';
+import { IconActivity, IconChevronRight, IconFingerprint, IconGauge } from '@tabler/icons-react';
+import { Box, Group, NavLink } from '@mantine/core';
 import { MantineDemo } from '@mantinex/demo';
-import { Box, NavLink, Group } from '@mantine/core';
 
 const code = `
 import { useState } from 'react';
@@ -23,6 +23,7 @@ function Demo() {
 
   const items = data.map((item, index) => (
     <NavLink
+      href="#required-for-focus"
       key={item.label}
       active={index === active}
       label={item.label}
@@ -53,6 +54,7 @@ function Demo(props: any) {
 
   const items = data.map((item, index) => (
     <NavLink
+      href="#required-for-focus"
       key={item.label}
       active={index === active}
       label={item.label}

@@ -3,29 +3,29 @@ import {
   useId,
   useMergedRef,
   useResizeObserver,
-  useUncontrolled,
   useTimeout,
+  useUncontrolled,
 } from '@mantine/hooks';
 import {
   Box,
   BoxProps,
-  StylesApiProps,
-  factory,
+  createVarsResolver,
   ElementProps,
+  Factory,
+  factory,
+  getEnv,
+  getFontSize,
+  getRadius,
+  getSize,
+  getThemeColor,
+  MantineColor,
+  MantineRadius,
+  MantineSize,
+  StylesApiProps,
+  useDirection,
+  useMantineTheme,
   useProps,
   useStyles,
-  MantineColor,
-  MantineSize,
-  MantineRadius,
-  useMantineTheme,
-  getRadius,
-  getThemeColor,
-  getSize,
-  getFontSize,
-  useDirection,
-  createVarsResolver,
-  Factory,
-  getEnv,
 } from '../../core';
 import { getRootPadding } from './get-root-padding';
 import classes from './SegmentedControl.module.css';
@@ -256,6 +256,7 @@ export const SegmentedControl = factory<SegmentedControlFactory>((_props, ref) =
         mod={{
           active: _value === item.value && !(disabled || item.disabled),
           disabled: disabled || item.disabled,
+          'read-only': readOnly,
         }}
         htmlFor={`${uuid}-${item.value}`}
         ref={(node) => {

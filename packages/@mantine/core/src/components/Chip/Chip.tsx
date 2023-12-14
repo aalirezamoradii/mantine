@@ -3,20 +3,20 @@ import { useId, useUncontrolled } from '@mantine/hooks';
 import {
   Box,
   BoxProps,
-  StylesApiProps,
-  factory,
-  ElementProps,
-  useProps,
-  useStyles,
   createVarsResolver,
+  ElementProps,
+  extractStyleProps,
+  factory,
   Factory,
+  getFontSize,
+  getRadius,
+  getSize,
+  MantineColor,
   MantineRadius,
   MantineSize,
-  MantineColor,
-  extractStyleProps,
-  getSize,
-  getRadius,
-  getFontSize,
+  StylesApiProps,
+  useProps,
+  useStyles,
 } from '../../core';
 import { CheckIcon } from '../Checkbox';
 import { useChipGroupContext } from './ChipGroup.context';
@@ -100,7 +100,7 @@ const varsResolver = createVarsResolver<ChipFactory>((theme, { size, radius, var
   const colors = theme.variantColorResolver({
     color: color || theme.primaryColor,
     theme,
-    variant: variant!,
+    variant: variant || 'filled',
   });
 
   return {

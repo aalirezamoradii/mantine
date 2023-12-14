@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, ButtonProps } from './Button';
 import { DEFAULT_THEME, rem } from '../../core';
+import { Button, ButtonProps } from './Button';
 
 export default { title: 'Button' };
 
@@ -9,6 +9,16 @@ export function RenderRoot() {
     <Button renderRoot={(props) => <a {...props} href="#" />} className="test">
       Some content
     </Button>
+  );
+}
+
+export function PolymorphicAlignment() {
+  return (
+    <div style={{ padding: 40 }}>
+      <Button>Button</Button>
+      <Button component="div">Div</Button>
+      <Button component="a">Link</Button>
+    </div>
   );
 }
 

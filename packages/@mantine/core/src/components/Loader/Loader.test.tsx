@@ -1,6 +1,6 @@
 import React, { forwardRef } from 'react';
-import { tests, render } from '@mantine-tests/core';
-import { Loader, LoaderProps, LoaderStylesNames, defaultLoaders } from './Loader';
+import { render, tests } from '@mantine-tests/core';
+import { defaultLoaders, Loader, LoaderProps, LoaderStylesNames } from './Loader';
 import { MantineLoaderComponent } from './Loader.types';
 
 const customLoader: MantineLoaderComponent = forwardRef(() => <div data-custom-loader />);
@@ -57,5 +57,9 @@ describe('@mantine/core/Loader', () => {
 
     rerender(<Loader size={100} />);
     expect(container.querySelector('[data-size]')).not.toBeInTheDocument();
+  });
+
+  it('exposes defaultLoaders as static property', () => {
+    expect(Loader.defaultLoaders).toStrictEqual(defaultLoaders);
   });
 });

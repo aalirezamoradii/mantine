@@ -3,12 +3,12 @@ import { useMergedRef } from '@mantine/hooks';
 import {
   Box,
   BoxProps,
-  StylesApiProps,
-  factory,
   ElementProps,
+  factory,
+  Factory,
+  StylesApiProps,
   useProps,
   useStyles,
-  Factory,
 } from '../../../core';
 import { useInputWrapperContext } from '../../Input';
 import { usePillsInputContext } from '../PillsInput.context';
@@ -81,6 +81,8 @@ export const PillsInputField = factory<PillsInputFieldFactory>((_props, ref) => 
       id={inputWrapperCtx?.inputId || id}
       aria-invalid={ctx?.hasError}
       aria-describedby={inputWrapperCtx?.describedBy}
+      type="text"
+      onMouseDown={(event) => !pointer && event.stopPropagation()}
     />
   );
 });

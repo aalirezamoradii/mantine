@@ -11,6 +11,7 @@ export default Layout(MDX_DATA.formSchemaValidation);
 - [joi](https://www.npmjs.com/package/joi)
 - [yup](https://www.npmjs.com/package/yup)
 - [superstruct](https://www.npmjs.com/package/superstruct)
+- [valibot](https://www.npmjs.com/package/valibot)
 
 You need to install one of the libraries yourself, `@mantine/form` package does not depend on any of them.
 If you do not know what schema validation library to choose, use [zod](https://www.npmjs.com/package/zod),
@@ -25,9 +26,9 @@ Installation:
 Basic fields validation:
 
 ```tsx
+import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
 import { useForm } from '@mantine/form';
-import { zodResolver } from 'mantine-form-zod-resolver';
 
 const schema = z.object({
   name: z
@@ -60,9 +61,9 @@ form.errors;
 Nested fields validation
 
 ```tsx
+import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
 import { useForm } from '@mantine/form';
-import { zodResolver } from 'mantine-form-zod-resolver';
 
 const nestedSchema = z.object({
   nested: z.object({
@@ -91,9 +92,9 @@ form.errors;
 List fields validation:
 
 ```tsx
+import { zodResolver } from 'mantine-form-zod-resolver';
 import { z } from 'zod';
 import { useForm } from '@mantine/form';
-import { zodResolver } from 'mantine-form-zod-resolver';
 
 const listSchema = z.object({
   list: z.array(
@@ -128,9 +129,9 @@ Installation:
 Basic fields validation:
 
 ```tsx
+import { yupResolver } from 'mantine-form-yup-resolver';
 import * as yup from 'yup';
 import { useForm } from '@mantine/form';
-import { yupResolver } from 'mantine-form-yup-resolver';
 
 const schema = yup.object().shape({
   name: yup.string().min(2, 'Name should have at least 2 letters'),
@@ -164,9 +165,9 @@ form.errors;
 Nested fields validation:
 
 ```tsx
+import { yupResolver } from 'mantine-form-yup-resolver';
 import * as yup from 'yup';
 import { useForm } from '@mantine/form';
-import { yupResolver } from 'mantine-form-yup-resolver';
 
 const nestedSchema = yup.object().shape({
   nested: yup.object().shape({
@@ -195,9 +196,9 @@ form.errors;
 List fields validation:
 
 ```tsx
+import { yupResolver } from 'mantine-form-yup-resolver';
 import * as yup from 'yup';
 import { useForm } from '@mantine/form';
-import { yupResolver } from 'mantine-form-yup-resolver';
 
 const listSchema = yup.object().shape({
   list: yup.array().of(
@@ -233,8 +234,8 @@ Basic fields validation:
 
 ```tsx
 import Joi from 'joi';
-import { useForm } from '@mantine/form';
 import { joiResolver } from 'mantine-form-joi-resolver';
+import { useForm } from '@mantine/form';
 
 const schema = Joi.object({
   name: Joi.string().min(2).messages({
@@ -274,8 +275,8 @@ Nested fields validation:
 
 ```tsx
 import Joi from 'joi';
-import { useForm } from '@mantine/form';
 import { joiResolver } from 'mantine-form-joi-resolver';
+import { useForm } from '@mantine/form';
 
 const nestedSchema = Joi.object({
   nested: Joi.object({
@@ -305,8 +306,8 @@ List fields validation:
 
 ```tsx
 import Joi from 'joi';
-import { useForm } from '@mantine/form';
 import { joiResolver } from 'mantine-form-joi-resolver';
+import { useForm } from '@mantine/form';
 
 const listSchema = Joi.object({
   list: Joi.array().items(
@@ -342,9 +343,9 @@ Installation:
 Basic fields validation:
 
 ```tsx
-import * as s from 'superstruct';
 import isEmail from 'is-email';
 import { superstructResolver } from 'mantine-form-superstruct-resolver';
+import * as s from 'superstruct';
 
 const emailString = s.define('email', isEmail);
 
@@ -375,9 +376,9 @@ form.errors;
 Nested fields validation:
 
 ```tsx
+import { superstructResolver } from 'mantine-form-superstruct-resolver';
 import * as s from 'superstruct';
 import { useForm } from '@mantine/form';
-import { superstructResolver } from 'mantine-form-superstruct-resolver';
 
 const nestedSchema = s.object({
   nested: s.object({
@@ -404,9 +405,9 @@ form.errors;
 List fields validation:
 
 ```tsx
+import { superstructResolver } from 'mantine-form-superstruct-resolver';
 import * as s from 'superstruct';
 import { useForm } from '@mantine/form';
-import { superstructResolver } from 'mantine-form-superstruct-resolver';
 
 const listSchema = s.object({
   list: s.array(
@@ -427,5 +428,113 @@ form.validate();
 form.errors;
 // -> {
 //  'list 0 name: Expected a string with a length between `2` and `30` but received one with a length of `0`',
+// }
+```
+
+## valibot
+
+Installation:
+
+<InstallScript packages="valibot mantine-form-valibot-resolver" />
+
+Basic fields validation:
+
+```tsx
+import { valibotResolver } from 'mantine-form-valibot-resolver';
+import {
+  email,
+  minLength,
+  minValue,
+  number,
+  object,
+  string,
+} from 'valibot';
+import { useForm } from '@mantine/form';
+
+const schema = object({
+  name: string([minLength(2, 'Name should have at least 2 letters')]),
+  email: string([email('Invalid email')]),
+  age: number([
+    minValue(18, 'You must be at least 18 to create an account'),
+  ]),
+});
+
+const form = useForm({
+  initialValues: {
+    name: '',
+    email: '',
+    age: 16,
+  },
+  validate: valibotResolver(schema),
+});
+
+form.validate();
+form.errors;
+// -> {
+//  name: 'Name should have at least 2 letters',
+//  email: 'Invalid email',
+//  age: 'You must be at least 18 to create an account'
+// }
+```
+
+Nested fields validation
+
+```tsx
+import { valibotResolver } from 'mantine-form-valibot-resolver';
+import { minLength, object, string } from 'valibot';
+import { useForm } from '@mantine/form';
+
+const nestedSchema = object({
+  nested: object({
+    field: string([
+      minLength(2, 'Field should have at least 2 letters'),
+    ]),
+  }),
+});
+
+const form = useForm({
+  initialValues: {
+    nested: {
+      field: '',
+    },
+  },
+  validate: valibotResolver(nestedSchema),
+});
+
+form.validate();
+form.errors;
+// -> {
+//  'nested.field': 'Field should have at least 2 letters',
+// }
+```
+
+List fields validation:
+
+```tsx
+import { valibotResolver } from 'mantine-form-valibot-resolver';
+import { array, minLength, object, string } from 'valibot';
+import { useForm } from '@mantine/form';
+
+const listSchema = object({
+  list: array(
+    object({
+      name: string([
+        minLength(2, 'Name should have at least 2 letters'),
+      ]),
+    })
+  ),
+});
+
+const form = useForm({
+  initialValues: {
+    list: [{ name: '' }],
+  },
+  validate: valibotResolver(listSchema),
+});
+
+form.validate();
+form.errors;
+// -> {
+//  'list.0.name': 'Name should have at least 2 letters',
 // }
 ```

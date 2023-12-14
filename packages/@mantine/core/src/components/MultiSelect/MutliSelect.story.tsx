@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { MultiSelect } from './MultiSelect';
 import { Button } from '../Button';
 import { Group } from '../Group';
 import { TextInput } from '../TextInput';
+import { MultiSelect } from './MultiSelect';
 
 export default { title: 'MultiSelect' };
 
@@ -15,6 +15,21 @@ export function Usage() {
           { value: '1', label: 'React' },
           { value: '2', label: 'Angular' },
           { value: '3', label: 'Svelte' },
+        ]}
+      />
+    </div>
+  );
+}
+
+export function EmptyStringValue() {
+  return (
+    <div style={{ padding: 40 }}>
+      <MultiSelect
+        placeholder="MultiSelect something"
+        defaultValue={['']}
+        data={[
+          { value: '', label: 'Empty string' },
+          { value: 'something', label: 'Non empty string' },
         ]}
       />
     </div>
