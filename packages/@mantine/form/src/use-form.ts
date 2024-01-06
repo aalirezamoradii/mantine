@@ -14,6 +14,7 @@ import {
   GetFieldStatus,
   GetInputProps,
   GetTransformedValues,
+  Initialize,
   InsertListItem,
   IsValid,
   OnReset,
@@ -38,7 +39,7 @@ export function useForm<
   TransformValues extends _TransformValues<Values> = (values: Values) => Values,
 >({
   name,
-  initialValues = {} as Values,
+  initialValues,
   initialErrors = {},
   initialDirty = {},
   initialTouched = {},
@@ -47,22 +48,34 @@ export function useForm<
   validateInputOnBlur = false,
   onValuesChange,
   transformValues = ((values: Values) => values) as any,
+  enhanceGetInputProps,
   validate: rules,
 }: UseFormInput<Values, TransformValues> = {}): UseFormReturnType<Values, TransformValues> {
   const [touched, setTouched] = useState(initialTouched);
   const [dirty, setDirty] = useState(initialDirty);
-  const [values, _setValues] = useState(initialValues);
+  const [values, _setValues] = useState((initialValues || {}) as Values);
   const [errors, _setErrors] = useState(filterErrors(initialErrors));
+  const [initialized, setInitialized] = useState(false);
 
-  const valuesSnapshot = useRef<Values>(initialValues);
+  const valuesSnapshot = useRef<Values>((initialValues || {}) as Values);
   const setValuesSnapshot = (_values: Values) => {
     valuesSnapshot.current = _values;
   };
 
+  const initialize: Initialize<Values> = useCallback(
+    (_values) => {
+      if (!initialized) {
+        setInitialized(true);
+        _setValues(_values);
+      }
+    },
+    [initialized]
+  );
+
   const resetTouched = useCallback(() => setTouched({}), []);
   const resetDirty: ResetDirty<Values> = (_values) => {
     const newSnapshot = _values ? { ...values, ..._values } : values;
-    setValuesSnapshot(newSnapshot);
+    setValuesSnapshot(newSnapshot as Values);
     setDirty({});
   };
 
@@ -192,7 +205,7 @@ export function useForm<
 
   const getInputProps: GetInputProps<Values> = (
     path,
-    { type = 'input', withError = true, withFocus = true } = {}
+    { type = 'input', withError = true, withFocus = true, ...otherOptions } = {}
   ) => {
     const onChange = getInputOnChange((value) => setFieldValue(path, value as any));
     const payload: any = { onChange };
@@ -220,7 +233,15 @@ export function useForm<
       };
     }
 
-    return payload;
+    return Object.assign(
+      payload,
+      enhanceGetInputProps?.({
+        inputProps: payload,
+        field: path,
+        options: { type, withError, withFocus, ...otherOptions },
+        form,
+      })
+    );
   };
 
   const onSubmit: OnSubmit<Values, TransformValues> =
@@ -277,8 +298,10 @@ export function useForm<
   );
 
   const form: UseFormReturnType<Values, TransformValues> = {
+    initialized,
     values,
     errors,
+    initialize,
     setValues,
     setInitialValues: setValuesSnapshot,
     setErrors,

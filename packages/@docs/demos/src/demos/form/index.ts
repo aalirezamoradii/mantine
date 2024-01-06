@@ -21,3 +21,7 @@ export { blurFieldValidation } from './Form.demo.blurFieldValidation';
 export { transformValues } from './Form.demo.transformValues';
 export { validators } from './Form.demo.validators';
 export { validatorsEmpty } from './Form.demo.validatorsEmpty';
+export { initialize } from './Form.demo.initialize';
+export { enhanceGetInputProps } from './Form.demo.enhanceGetInputProps';
+export { enhanceGetInputPropsOptions } from './Form.demo.enhanceGetInputPropsOptions';
+export { enhanceGetInputPropsForm } from './Form.demo.enhanceGetInputPropsForm';

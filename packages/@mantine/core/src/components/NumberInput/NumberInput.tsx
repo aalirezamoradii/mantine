@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import cx from 'clsx';
 import { NumberFormatValues, NumericFormat, OnValueChange } from 'react-number-format';
-import { assignRef, clamp, useUncontrolled } from '@mantine/hooks';
+import { assignRef, clamp, useMergedRef, useUncontrolled } from '@mantine/hooks';
 import {
   BoxProps,
   createVarsResolver,
@@ -20,13 +20,22 @@ import { UnstyledButton } from '../UnstyledButton';
 import { NumberInputChevron } from './NumberInputChevron';
 import classes from './NumberInput.module.css';
 
+// re for -0, -0., -0.0, -0.00, -0.000 ... strings
+const partialNegativeNumberPattern = /^-0(\.0*)?$/;
+
+// re for 01, 006, 0002 ... and negative counterparts
+const leadingZerosPattern = /^-?0\d+$/;
+
 export interface NumberInputHandlers {
   increment: () => void;
   decrement: () => void;
 }
 
 function isValidNumber(value: number | string | undefined): value is number {
-  return (typeof value === 'number' || !Number.isNaN(Number(value))) && !Number.isNaN(value);
+  return (
+    (typeof value === 'number' ? value < Number.MAX_SAFE_INTEGER : !Number.isNaN(Number(value))) &&
+    !Number.isNaN(value)
+  );
 }
 
 interface GetDecrementedValueInput {
@@ -149,6 +158,12 @@ export interface NumberInputProps
 
   /** Value set to the input when increment/decrement buttons are clicked or up/down arrows pressed if the input is empty, `0` by default */
   startValue?: number;
+
+  /** Delay before stepping the value. Can be a number of milliseconds or a function that receives the current step count and returns the delay in milliseconds. */
+  stepHoldInterval?: number | ((stepCount: number) => number);
+
+  /** Initial delay in milliseconds before stepping the value. */
+  stepHoldDelay?: number;
 }
 
 export type NumberInputFactory = Factory<{
@@ -204,6 +219,9 @@ export const NumberInput = factory<NumberInputFactory>((_props, ref) => {
     readOnly,
     size,
     rightSectionWidth,
+    stepHoldInterval,
+    stepHoldDelay,
+    allowLeadingZeros,
     ...others
   } = props;
 
@@ -230,10 +248,17 @@ export const NumberInput = factory<NumberInputFactory>((_props, ref) => {
     onChange,
   });
 
+  const shouldUseStepInterval = stepHoldDelay !== undefined && stepHoldInterval !== undefined;
+  const inputRef = useRef<HTMLInputElement>(null);
+  const onStepTimeoutRef = useRef<number | null>(null);
+  const stepCountRef = useRef<number>(0);
+
   const handleValueChange: OnValueChange = (payload, event) => {
     if (event.source === 'event') {
       setValue(
-        isValidNumber(payload.floatValue) && payload.value !== '-0' && payload.value !== '-0.'
+        isValidNumber(payload.floatValue) &&
+          !partialNegativeNumberPattern.test(payload.value) &&
+          !(allowLeadingZeros ? leadingZerosPattern.test(payload.value) : false)
           ? payload.floatValue
           : payload.value
       );
@@ -241,7 +266,8 @@ export const NumberInput = factory<NumberInputFactory>((_props, ref) => {
     onValueChange?.(payload, event);
   };
 
-  const increment = () => {
+  const incrementRef = useRef<() => void>();
+  incrementRef.current = () => {
     if (typeof _value !== 'number' || Number.isNaN(_value)) {
       setValue(clamp(startValue!, min, max));
     } else if (max !== undefined) {
@@ -251,7 +277,8 @@ export const NumberInput = factory<NumberInputFactory>((_props, ref) => {
     }
   };
 
-  const decrement = () => {
+  const decrementRef = useRef<() => void>();
+  decrementRef.current = () => {
     if (typeof _value !== 'number' || Number.isNaN(_value)) {
       setValue(clamp(startValue!, min, max));
     } else {
@@ -268,16 +295,57 @@ export const NumberInput = factory<NumberInputFactory>((_props, ref) => {
 
     if (event.key === 'ArrowUp') {
       event.preventDefault();
-      increment();
+      incrementRef.current!();
     }
 
     if (event.key === 'ArrowDown') {
       event.preventDefault();
-      decrement();
+      decrementRef.current!();
     }
   };
 
-  assignRef(handlersRef, { increment, decrement });
+  assignRef(handlersRef, { increment: incrementRef.current, decrement: decrementRef.current });
+
+  const onStepHandleChange = (isIncrement: boolean) => {
+    if (isIncrement) {
+      incrementRef.current!();
+    } else {
+      decrementRef.current!();
+    }
+    stepCountRef.current += 1;
+  };
+
+  const onStepLoop = (isIncrement: boolean) => {
+    onStepHandleChange(isIncrement);
+
+    if (shouldUseStepInterval) {
+      const interval =
+        typeof stepHoldInterval === 'number'
+          ? stepHoldInterval
+          : stepHoldInterval(stepCountRef.current);
+      onStepTimeoutRef.current = window.setTimeout(() => onStepLoop(isIncrement), interval);
+    }
+  };
+
+  const onStep = (
+    event: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>,
+    isIncrement: boolean
+  ) => {
+    event.preventDefault();
+    inputRef.current?.focus();
+    onStepHandleChange(isIncrement);
+    if (shouldUseStepInterval) {
+      onStepTimeoutRef.current = window.setTimeout(() => onStepLoop(isIncrement), stepHoldDelay);
+    }
+  };
+
+  const onStepDone = () => {
+    if (onStepTimeoutRef.current) {
+      window.clearTimeout(onStepTimeoutRef.current);
+    }
+    onStepTimeoutRef.current = null;
+    stepCountRef.current = 0;
+  };
 
   const controls = (
     <div {...getStyles('controls')}>
@@ -288,7 +356,11 @@ export const NumberInput = factory<NumberInputFactory>((_props, ref) => {
         disabled={disabled || (typeof _value === 'number' && max !== undefined && _value >= max)}
         mod={{ direction: 'up' }}
         onMouseDown={(event) => event.preventDefault()}
-        onPointerDown={increment}
+        onPointerDown={(event) => {
+          onStep(event, true);
+        }}
+        onPointerUp={onStepDone}
+        onPointerLeave={onStepDone}
       >
         <NumberInputChevron direction="up" />
       </UnstyledButton>
@@ -299,7 +371,11 @@ export const NumberInput = factory<NumberInputFactory>((_props, ref) => {
         disabled={disabled || (typeof _value === 'number' && min !== undefined && _value <= min)}
         mod={{ direction: 'down' }}
         onMouseDown={(event) => event.preventDefault()}
-        onPointerDown={decrement}
+        onPointerDown={(event) => {
+          onStep(event, false);
+        }}
+        onPointerUp={onStepDone}
+        onPointerLeave={onStepDone}
       >
         <NumberInputChevron direction="down" />
       </UnstyledButton>
@@ -316,7 +392,7 @@ export const NumberInput = factory<NumberInputFactory>((_props, ref) => {
       readOnly={readOnly}
       disabled={disabled}
       value={_value}
-      getInputRef={ref}
+      getInputRef={useMergedRef(ref, inputRef)}
       onValueChange={handleValueChange}
       rightSection={hideControls || readOnly ? rightSection : rightSection || controls}
       classNames={resolvedClassNames}
@@ -327,6 +403,7 @@ export const NumberInput = factory<NumberInputFactory>((_props, ref) => {
       onKeyDown={handleKeyDown}
       rightSectionPointerEvents={rightSectionPointerEvents ?? disabled ? 'none' : undefined}
       rightSectionWidth={rightSectionWidth ?? `var(--ni-right-section-width-${size || 'sm'})`}
+      allowLeadingZeros={allowLeadingZeros}
       onBlur={(event) => {
         onBlur?.(event);
         if (clampBehavior === 'blur' && typeof _value === 'number') {

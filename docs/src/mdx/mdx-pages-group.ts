@@ -54,6 +54,7 @@ export const MDX_PAGES_GROUPS: MdxPagesGroup[] = [
       MDX_DATA.TypeScript,
       MDX_DATA.JavaScript,
       MDX_DATA.Jest,
+      MDX_DATA.FunctionsReference,
       MDX_DATA.SixToSeven,
     ],
   },
@@ -83,6 +84,7 @@ export const MDX_PAGES_GROUPS: MdxPagesGroup[] = [
           MDX_DATA.useViewportSize,
           MDX_DATA.useWindowEvent,
           MDX_DATA.useWindowScroll,
+          MDX_DATA.useInViewport,
         ],
       },
 
@@ -145,6 +147,7 @@ export const MDX_PAGES_GROUPS: MdxPagesGroup[] = [
     pages: [
       MDX_DATA.useForm,
       MDX_DATA.formValues,
+      MDX_DATA.formGetInputProps,
       MDX_DATA.formErrors,
       MDX_DATA.formValidation,
       MDX_DATA.formSchemaValidation,
@@ -325,7 +328,17 @@ export const MDX_PAGES_GROUPS: MdxPagesGroup[] = [
     ],
   },
   {
-    group: 'other packages',
+    group: 'mantine-charts',
+    pages: [
+      MDX_DATA.GettingStartedCharts,
+      MDX_DATA.AreaChart,
+      MDX_DATA.BarChart,
+      MDX_DATA.LineChart,
+      MDX_DATA.Sparkline,
+    ],
+  },
+  {
+    group: 'extensions',
     pages: [
       MDX_DATA.CodeHighlight,
       MDX_DATA.Notifications,
@@ -340,6 +353,7 @@ export const MDX_PAGES_GROUPS: MdxPagesGroup[] = [
   {
     group: 'changelog',
     pages: [
+      MDX_DATA.Changelog740,
       MDX_DATA.Changelog730,
       MDX_DATA.Changelog720,
       MDX_DATA.Changelog710,

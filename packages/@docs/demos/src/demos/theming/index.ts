@@ -19,3 +19,6 @@ export { colorScheme } from './Theming.demo.colorScheme';
 export { colorSchemeControl } from './Theming.demo.colorSchemeControl';
 export { defaultGradient } from './Theming.demo.defaultGradient';
 export { cursorType } from './Theming.demo.cursorType';
+export { autoContrast } from './Theming.demo.autoContrast';
+export { luminanceThreshold } from './Theming.demo.luminanceThreshold';
+export { oklch } from './Theming.demo.oklch';

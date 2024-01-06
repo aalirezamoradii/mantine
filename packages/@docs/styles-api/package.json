@@ -38,6 +38,7 @@
   },
   "devDependencies": {
     "@mantine/carousel": "workspace:*",
+    "@mantine/charts": "workspace:*",
     "@mantine/code-highlight": "workspace:*",
     "@mantine/core": "workspace:*",
     "@mantine/dates": "workspace:*",

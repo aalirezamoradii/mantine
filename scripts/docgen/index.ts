@@ -8,7 +8,10 @@ generateDeclarations({
   componentsPaths: DOCGEN_PATHS,
   excludeProps: [],
   typesReplacement: {
-    'Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref"> | undefined':
-      'React.ComponentPropsWithoutRef<"input">',
+    'Partial<Omit<TransitionProps, "mounted">> | undefined': 'TransitionProps',
+    'Omit<Props, "ref"> | undefined': 'RechartsProps',
+    '[DefaultMantineColor, DefaultMantineColor] | undefined': '[MantineColor, MantineColor]',
+    'CategoricalChartProps | undefined': 'RechartsProps',
+    'Omit<TooltipProps<any, any>, "ref"> | undefined': 'RechartsProps',
   },
 });

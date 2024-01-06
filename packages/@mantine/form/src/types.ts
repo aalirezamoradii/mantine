@@ -64,10 +64,26 @@ export type GetTransformedValues<Values, TransformValues extends _TransformValue
 
 export type OnReset = (event: React.FormEvent<HTMLFormElement>) => void;
 
+export interface GetInputPropsOptions {
+  type?: GetInputPropsType;
+  withError?: boolean;
+  withFocus?: boolean;
+  [key: string]: any;
+}
+
+export interface GetInputPropsReturnType {
+  onChange: any;
+  value?: any;
+  checked?: any;
+  error?: any;
+  onFocus?: any;
+  onBlur?: any;
+}
+
 export type GetInputProps<Values> = <Field extends LooseKeys<Values>>(
   path: Field,
-  options?: { type?: GetInputPropsType; withError?: boolean; withFocus?: boolean }
-) => { value: any; onChange: any; checked?: any; error?: any; onFocus?: any; onBlur?: any };
+  options?: GetInputPropsOptions
+) => GetInputPropsReturnType;
 
 export type SetFieldValue<Values> = <Field extends LooseKeys<Values>>(
   path: Field,
@@ -109,6 +125,7 @@ export type ResetStatus = () => void;
 
 export type ResetDirty<Values> = (values?: Values) => void;
 export type IsValid<Values> = <Field extends LooseKeys<Values>>(path?: Field) => boolean;
+export type Initialize<Values> = (values: Values) => void;
 
 export type _TransformValues<Values> = (values: Values) => unknown;
 
@@ -127,6 +144,12 @@ export interface UseFormInput<
   validateInputOnChange?: boolean | LooseKeys<Values>[];
   validateInputOnBlur?: boolean | LooseKeys<Values>[];
   onValuesChange?: (values: Values) => void;
+  enhanceGetInputProps?: (payload: {
+    inputProps: GetInputPropsReturnType;
+    field: LooseKeys<Values>;
+    options: GetInputPropsOptions;
+    form: UseFormReturnType<Values, TransformValues>;
+  }) => Record<string, any> | undefined | void;
 }
 
 export interface UseFormReturnType<
@@ -134,7 +157,9 @@ export interface UseFormReturnType<
   TransformValues extends _TransformValues<Values> = (values: Values) => Values,
 > {
   values: Values;
+  initialized: boolean;
   errors: FormErrors;
+  initialize: Initialize<Values>;
   setValues: SetValues<Values>;
   setInitialValues: SetInitialValues<Values>;
   setErrors: SetErrors;

@@ -26,4 +26,17 @@ describe('@mantine/core/rgba', () => {
     expect(rgba('#000000', 24)).toBe('rgba(0, 0, 0, 1)');
     expect(rgba('#000000', 1.01)).toBe('rgba(0, 0, 0, 1)');
   });
+
+  it('supports oklch colors', () => {
+    expect(rgba('oklch(96.27% 0.0217 238.66)', 0.74)).toBe('oklch(96.27% 0.0217 238.66 / 0.74)');
+    expect(rgba('oklch(96.27% 0.0217 238.66 / 0.14)', 0.74)).toBe(
+      'oklch(96.27% 0.0217 238.66 / 0.74)'
+    );
+  });
+
+  it('supports css variables', () => {
+    expect(rgba('var(--color-primary)', 0.74)).toBe(
+      'color-mix(in srgb, var(--color-primary), transparent 26%)'
+    );
+  });
 });

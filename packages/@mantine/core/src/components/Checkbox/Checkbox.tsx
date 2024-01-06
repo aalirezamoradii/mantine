@@ -8,6 +8,7 @@ import {
   extractStyleProps,
   factory,
   Factory,
+  getContrastColor,
   getRadius,
   getSize,
   getThemeColor,
@@ -35,16 +36,16 @@ export interface CheckboxProps
   extends BoxProps,
     StylesApiProps<CheckboxFactory>,
     ElementProps<'input', 'size'> {
-  /** Id used to bind input and label, if not passed, unique id will be generated instead */
+  /** Id used to connect input with the label. If not set, unique id is generated instead. */
   id?: string;
 
-  /** Checkbox label */
+  /** Content of the `label` associated with the checkbox */
   label?: React.ReactNode;
 
   /** Key of `theme.colors` or any valid CSS color to set input background color in checked state, `theme.primaryColor` by default */
   color?: MantineColor;
 
-  /** Controls size of all elements */
+  /** Controls size of the component, `'sm'` by default */
   size?: MantineSize | (string & {});
 
   /** Key of `theme.radius` or any valid CSS value to set `border-radius,` `theme.defaultRadius` by default */
@@ -59,20 +60,23 @@ export interface CheckboxProps
   /** Description displayed below the label */
   description?: React.ReactNode;
 
-  /** Error displayed below the label */
+  /** Error message displayed below the label */
   error?: React.ReactNode;
 
-  /** Indeterminate state of checkbox, if set, `checked` prop is ignored */
+  /** Indeterminate state of the checkbox. If set, `checked` prop is ignored. */
   indeterminate?: boolean;
 
-  /** Icon rendered when checkbox has checked or indeterminate state */
+  /** Icon displayed when checkbox is in checked or indeterminate state */
   icon?: React.FC<{ indeterminate: boolean | undefined; className: string }>;
 
-  /** Assigns ref of the root element, can be used with `Tooltip` and other similar components */
+  /** Assigns ref of the root element */
   rootRef?: React.ForwardedRef<HTMLDivElement>;
 
-  /** Key of `theme.colors` or any valid CSS color to set icon color, `theme.white` by default */
+  /** Key of `theme.colors` or any valid CSS color to set icon color, by default value depends on `theme.autoContrast` */
   iconColor?: MantineColor;
+
+  /** Determines whether icon color with filled variant should depend on `background-color`. If luminosity of the `color` prop is less than `theme.luminosityThreshold`, then `theme.white` will be used for text color, otherwise `theme.black`. Overrides `theme.autoContrast`. */
+  autoContrast?: boolean;
 }
 
 export type CheckboxFactory = Factory<{
@@ -92,7 +96,7 @@ const defaultProps: Partial<CheckboxProps> = {
 };
 
 const varsResolver = createVarsResolver<CheckboxFactory>(
-  (theme, { radius, color, size, iconColor, variant }) => {
+  (theme, { radius, color, size, iconColor, variant, autoContrast }) => {
     const parsedColor = parseThemeColor({ color: color || theme.primaryColor, theme });
     const outlineColor =
       parsedColor.isThemeColor && parsedColor.shade === undefined
@@ -104,7 +108,11 @@ const varsResolver = createVarsResolver<CheckboxFactory>(
         '--checkbox-size': getSize(size, 'checkbox-size'),
         '--checkbox-radius': radius === undefined ? undefined : getRadius(radius),
         '--checkbox-color': variant === 'outline' ? outlineColor : getThemeColor(color, theme),
-        '--checkbox-icon-color': iconColor ? getThemeColor(iconColor, theme) : undefined,
+        '--checkbox-icon-color': iconColor
+          ? getThemeColor(iconColor, theme)
+          : autoContrast
+            ? getContrastColor({ color, theme })
+            : undefined,
       },
     };
   }
@@ -137,6 +145,7 @@ export const Checkbox = factory<CheckboxFactory>((_props, ref) => {
     rootRef,
     iconColor,
     onChange,
+    autoContrast,
     ...others
   } = props;
 

@@ -4,10 +4,11 @@ export { getThemeColor } from './get-theme-color/get-theme-color';
 export { defaultVariantColorsResolver } from './default-variant-colors-resolver/default-variant-colors-resolver';
 export { getGradient } from './get-gradient/get-gradient';
 export { toRgba } from './to-rgba/to-rgba';
-export { rgba } from './rgba/rgba';
+export { rgba, alpha } from './rgba/rgba';
 export { darken } from './darken/darken';
 export { lighten } from './lighten/lighten';
-export { isLightColor } from './is-light-color/is-light-color';
+export { luminance, isLightColor } from './luminance/luminance';
+export { getContrastColor, getPrimaryContrastColor } from './get-contrast-color/get-contrast-color';
 
 export type { RGBA } from './to-rgba/to-rgba';
 export type {
