@@ -148,11 +148,7 @@ export const DateInput = factory<DateInputFactory>((_props, ref) => {
   const _dateParser = dateParser || defaultDateParser;
   const _allowDeselect = allowDeselect !== undefined ? allowDeselect : clearable;
 
-  const formatValue = (val: Date) =>
-      val ? ctx.getLocale(locale) === 'fa'
-              ? new Intl.DateTimeFormat('fa-IR', { dateStyle: 'long' }).format(val)
-              : dayjs(val).locale(ctx.getLocale(locale)).format(valueFormat)
-          : '';
+  const formatValue = (val: Date) => val ? dayjs(val).locale(ctx.getLocale(locale)).format(valueFormat) : '';
 
   const [_value, setValue, controlled] = useUncontrolledDates({
     type: 'default',

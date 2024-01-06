@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { useDisclosure } from '@mantine/hooks';
 import { useDatesContext } from '../../components/DatesProvider';
 import { DatePickerType, DatePickerValue } from '../../types';
@@ -58,11 +59,15 @@ export function useDatesInput<Type extends DatePickerType = 'default'>({
     }
 
     if (sortDates && type === 'multiple') {
-      _setValue([...val].sort((a, b) => a.getTime() - b.getTime()));
+      _setValue([...val].sort((a, b) => getTime(a) - getTime(b)));
     } else {
       _setValue(val);
     }
   };
+
+  function getTime(time: any) {
+     return ctx.getLocale(locale) === 'fa' ? dayjs(time).get('milliseconds') : time.getTime();
+  }
 
   const onClear = () => setValue(type === 'range' ? [null, null] : type === 'multiple' ? [] : null);
   const shouldClear =
