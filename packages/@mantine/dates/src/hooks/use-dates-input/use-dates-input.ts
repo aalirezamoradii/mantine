@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useDisclosure } from '@mantine/hooks';
 import { useDatesContext } from '../../components/DatesProvider';
 import { DatePickerType, DatePickerValue } from '../../types';
-import { getFormattedDate } from '../../utils';
+import { DateFormatter, getFormattedDate } from '../../utils';
 import { useUncontrolledDates } from '../use-uncontrolled-dates/use-uncontrolled-dates';
 
 interface UseDatesInput<Type extends DatePickerType = 'default'> {
@@ -15,6 +15,7 @@ interface UseDatesInput<Type extends DatePickerType = 'default'> {
   closeOnChange: boolean | undefined;
   sortDates: boolean | undefined;
   labelSeparator: string | undefined;
+  valueFormatter: DateFormatter | undefined;
 }
 
 export function useDatesInput<Type extends DatePickerType = 'default'>({
@@ -27,6 +28,7 @@ export function useDatesInput<Type extends DatePickerType = 'default'>({
   closeOnChange,
   sortDates,
   labelSeparator,
+  valueFormatter,
 }: UseDatesInput<Type>) {
   const ctx = useDatesContext();
 
@@ -45,6 +47,7 @@ export function useDatesInput<Type extends DatePickerType = 'default'>({
     locale: ctx.getLocale(locale),
     format: format!,
     labelSeparator: ctx.getLabelSeparator(labelSeparator),
+    formatter: valueFormatter,
   });
 
   const setValue = (val: any) => {
