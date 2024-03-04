@@ -337,6 +337,12 @@ export const PinInput = factory<PinInputFactory>((props, ref) => {
     }
   }, [length, _value]);
 
+  useEffect(() => {
+    if (value === '') {
+      setValues(createPinArray(length ?? 0, value));
+    }
+  }, [value]);
+
   return (
     <>
       <Group
@@ -355,8 +361,8 @@ export const PinInput = factory<PinInputFactory>((props, ref) => {
             component="input"
             {...getStyles('pinInput', {
               style: {
-                '--_input-padding': '0',
-                '--_input-text-align': 'center',
+                '--input-padding': '0',
+                '--input-text-align': 'center',
               } as React.CSSProperties,
             })}
             classNames={resolvedClassNames}

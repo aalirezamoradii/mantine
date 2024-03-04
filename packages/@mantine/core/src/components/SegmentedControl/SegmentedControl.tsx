@@ -201,7 +201,7 @@ export const SegmentedControl = factory<SegmentedControlFactory>((_props, ref) =
   const [observerRef, containerRect] = useResizeObserver();
 
   useEffect(() => {
-    if (_value in refs.current && observerRef.current) {
+    if (observerRef.current) {
       const element = refs.current[_value];
       if (element) {
         const rootPadding = getRootPadding(rootRef.current!, WRAPPER_PADDING);
@@ -275,7 +275,8 @@ export const SegmentedControl = factory<SegmentedControlFactory>((_props, ref) =
           refs.current[item.value] = node!;
         }}
         __vars={{
-          '--sc-label-color': color !== undefined ? getContrastColor({ color, theme }) : undefined,
+          '--sc-label-color':
+            color !== undefined ? getContrastColor({ color, theme, autoContrast }) : undefined,
         }}
       >
         {item.label}
