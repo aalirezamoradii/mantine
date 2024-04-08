@@ -103,6 +103,7 @@ export * as UnstyledButtonDemos from './demos/core/UnstyledButton';
 export * as NotificationDemos from './demos/core/Notification';
 export * as NumberInputDemos from './demos/core/NumberInput';
 export * as NumberFormatterDemos from './demos/core/NumberFormatter';
+export * as FloatingIndicatorDemos from './demos/core/FloatingIndicator';
 
 // @mantine/dates
 export * as YearPickerDemos from './demos/dates/YearPicker';
@@ -125,6 +126,7 @@ export * as SparklineDemos from './demos/charts/Sparkline';
 export * as DonutChartDemos from './demos/charts/DonutChart';
 export * as PieChartDemos from './demos/charts/PieChart';
 export * as RadarChartDemos from './demos/charts/RadarChart';
+export * as ScatterChartDemos from './demos/charts/ScatterChart';
 
 // Extensions demos
 export * as NotificationsDemos from './demos/notifications';

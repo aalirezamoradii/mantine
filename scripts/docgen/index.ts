@@ -4,10 +4,13 @@ import { DOCGEN_PATHS } from './docgen-paths';
 
 generateDeclarations({
   tsConfigPath: getPath('tsconfig.json'),
-  outputPath: getPath('docs/src/.docgen'),
+  outputPath: getPath('apps/mantine.dev/src/.docgen'),
   componentsPaths: DOCGEN_PATHS,
-  excludeProps: [],
+  excludeProps: ['ms', 'me', 'ps', 'pe'],
   typesReplacement: {
+    'Omit<Omit<DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>, "ref">, "value"> | undefined':
+      'React.ComponentPropsWithoutRef<"input">',
+    '(__CloseButtonProps & ElementProps<"button">) | undefined': 'CloseButtonProps',
     'Partial<Omit<TransitionProps, "mounted">> | undefined': 'TransitionProps',
     'Omit<Props, "ref"> | undefined': 'RechartsProps',
     '[DefaultMantineColor, DefaultMantineColor] | undefined': '[MantineColor, MantineColor]',

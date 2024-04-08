@@ -23,6 +23,7 @@ import {
 } from '../Combobox';
 import { __BaseInputProps, __InputStylesNames, InputVariant } from '../Input';
 import { InputBase } from '../InputBase';
+import { ScrollAreaProps } from '../ScrollArea';
 
 export type SelectStylesNames = __InputStylesNames | ComboboxLikeStylesNames;
 
@@ -75,10 +76,13 @@ export interface SelectProps
   clearButtonProps?: __CloseButtonProps & ElementProps<'button'>;
 
   /** Props passed down to the hidden input */
-  hiddenInputProps?: React.ComponentPropsWithoutRef<'input'>;
+  hiddenInputProps?: Omit<React.ComponentPropsWithoutRef<'input'>, 'value'>;
 
   /** A function to render content of the option, replaces the default content of the option */
   renderOption?: (item: ComboboxLikeRenderOptionInput<ComboboxItem>) => React.ReactNode;
+
+  /** Props passed down to the underlying `ScrollArea` component in the dropdown */
+  scrollAreaProps?: ScrollAreaProps;
 }
 
 export type SelectFactory = Factory<{
@@ -143,6 +147,7 @@ export const Select = factory<SelectFactory>((_props, ref) => {
     renderOption,
     onClear,
     autoComplete,
+    scrollAreaProps,
     ...others
   } = props;
 
@@ -150,7 +155,7 @@ export const Select = factory<SelectFactory>((_props, ref) => {
   const optionsLockup = useMemo(() => getOptionsLockup(parsedData), [parsedData]);
   const _id = useId(id);
 
-  const [_value, setValue] = useUncontrolled({
+  const [_value, setValue, controlled] = useUncontrolled({
     value,
     defaultValue,
     finalValue: null,
@@ -232,7 +237,7 @@ export const Select = factory<SelectFactory>((_props, ref) => {
           const nextValue = optionLockup ? optionLockup.value : null;
 
           setValue(nextValue, optionLockup);
-          setSearch(typeof nextValue === 'string' ? optionLockup?.label || '' : '');
+          !controlled && setSearch(typeof nextValue === 'string' ? optionLockup?.label || '' : '');
           combobox.closeDropdown();
         }}
         size={size}
@@ -295,12 +300,12 @@ export const Select = factory<SelectFactory>((_props, ref) => {
           unstyled={unstyled}
           labelId={`${_id}-label`}
           renderOption={renderOption}
+          scrollAreaProps={scrollAreaProps}
         />
       </Combobox>
-      <input
-        type="hidden"
+      <Combobox.HiddenInput
+        value={_value}
         name={name}
-        value={_value || ''}
         form={form}
         disabled={disabled}
         {...hiddenInputProps}

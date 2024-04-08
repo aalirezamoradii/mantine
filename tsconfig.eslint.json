@@ -1,6 +1,7 @@
 {
   "include": [
     "./docs",
+    "./apps/*/src",
     "./scripts",
     "./@types",
     "./packages/@mantine-tests/*/src",
@@ -14,7 +15,7 @@
     "./packages/@mantine-tests/*/esm/**/*",
     "./packages/@mantine-tests/*/cjs/**/*",
     "./packages/@mantine-tests/*/lib/**/*",
-    "./packages/@docs/*/ems/**/*",
+    "./packages/@docs/*/esm/**/*",
     "./packages/@docs/*/cjs/**/*",
     "./packages/@docs/*/lib/**/*",
     "./packages/@mantine/*/lib/**/*",

@@ -1,8 +1,8 @@
 {
   "name": "mantine-a91763c0e2",
-  "version": "7.6.1",
+  "version": "7.7.1",
   "description": "Mantine Components Monorepo",
-  "packageManager": "yarn@4.1.0",
+  "packageManager": "yarn@4.1.1",
   "license": "MIT",
   "private": true,
   "author": "Vitaly Rtishchev <rtivital@gmail.com>",
@@ -11,13 +11,14 @@
     "node": ">=20.9.0"
   },
   "workspaces": [
-    "packages/@mantine/*",
-    "packages/@mantinex/*",
-    "packages/@mantine-tests/*",
-    "packages/@docs/*",
-    "docs"
+    "packages/**/*",
+    "apps/*"
   ],
   "scripts": {
+    "hc": "cd apps/help.mantine.dev && npm run dev",
+    "hc:build": "cd apps/help.mantine.dev && npm run build",
+    "hc:exports": "esno scripts/docs/hc-exports",
+    "hc:deploy": "npm run hc:build && wrangler pages deploy apps/help.mantine.dev/out --branch master --project-name help-mantine-dev",
     "chmod": "sh scripts/utils/chmod.sh",
     "setup": "npm run docs:docgen && esno scripts/docs/generate-css-exports",
     "plop": "esno scripts/plop",
@@ -25,13 +26,13 @@
     "changelog": "esno scripts/docs/changelog",
     "storybook": "storybook dev -p 6006",
     "dev": "npm run docs",
-    "docs": "cd docs && npm run dev",
+    "docs": "cd apps/mantine.dev && npm run dev",
     "docs:docgen": "esno scripts/docgen",
     "docs:codegen": "esno scripts/codegen",
-    "docs:build": "npm run docs:docgen && cd docs && npm run build",
-    "docs:build:alpha": "npm run docs:docgen && cd docs && npm run build:alpha",
-    "docs:deploy": "npm run docs:build && gh-pages -d docs/out -t true",
-    "docs:deploy:alpha": "npm run docs:build:alpha && esno scripts/docs/deploy-alpha",
+    "docs:build": "npm run docs:docgen && cd apps/mantine.dev && npm run build",
+    "docs:build:alpha": "npm run docs:docgen && cd apps/mantine.dev && npm run build:alpha",
+    "docs:deploy": "npm run docs:build && gh-pages -d apps/mantine.dev/out -t true",
+    "docs:deploy:alpha": "npm run docs:build:alpha && wrangler pages deploy apps/mantine.dev/out --branch master --project-name alpha-mantine-dev",
     "docs:count": "esno scripts/docs/count",
     "clean": "rimraf --glob packages/*/*/{esm,cjs,lib,dist} packages/*/*/*.tsbuildinfo packages/*/*/styles.css packages/*/*/styles.layer.css packages/@mantine/core/styles",
     "build": "esno scripts/build",
@@ -51,9 +52,9 @@
     "test:validate-package-json": "esno scripts/tests/validate-package-json",
     "test:validate-packages-files": "esno scripts/tests/validate-packages-files",
     "jest": "jest",
-    "typecheck": "tsc --noEmit && cd docs && npm run typecheck",
+    "typecheck": "tsc --noEmit && cd apps/mantine.dev && npm run typecheck && cd ../help.mantine.dev && npm run typecheck",
     "lint": "npm run eslint && npm run stylelint",
-    "eslint": "eslint packages docs/src scripts --ext .ts,.tsx --cache",
+    "eslint": "eslint packages apps/mantine.dev/src apps/help.mantine.dev/src scripts --ext .ts,.tsx --cache",
     "stylelint": "stylelint \"**/*.css\" --cache",
     "syncpack": "syncpack list-mismatches",
     "syncpack:format": "syncpack format",
@@ -99,8 +100,8 @@
     "react-textarea-autosize": "8.5.3",
     "react-transition-group": "4.4.5",
     "recharts": "^2.10.3",
-    "shikiji": "^0.7.4",
-    "type-fest": "^3.13.1"
+    "shiki": "^1.1.7",
+    "type-fest": "^4.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.23.3",
@@ -154,7 +155,7 @@
     "fast-glob": "^3.3.2",
     "fs-extra": "^11.1.1",
     "gh-pages": "^6.0.0",
-    "hash-css-selector": "^1.0.0",
+    "hash-css-selector": "^1.1.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^29.7.0",
     "jest-axe": "^8.0.0",
@@ -187,6 +188,7 @@
     "typescript": "5.3.3",
     "version-next": "^1.0.2",
     "webpack": "^5.89.0",
+    "wrangler": "^3.34.2",
     "yargs": "^17.7.2"
   },
   "resolutions": {

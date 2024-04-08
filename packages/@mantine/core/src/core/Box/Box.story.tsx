@@ -7,8 +7,17 @@ export default { title: 'Box' };
 export function Usage() {
   return (
     <div style={{ padding: 40 }}>
-      <Box bg="orange.4" ms="xl">
+      <Box bg="orange.4" ms="xl" fz="h2" lh="h1">
         Visible from sm
+      </Box>
+    </div>
+  );
+}
+export function VirtualColor() {
+  return (
+    <div style={{ padding: 40 }}>
+      <Box bg="virtual.4" p="xl">
+        Virtual bg
       </Box>
     </div>
   );

@@ -28,6 +28,7 @@ import { __BaseInputProps, __InputStylesNames } from '../Input';
 import { InputBase } from '../InputBase';
 import { Pill } from '../Pill';
 import { PillsInput } from '../PillsInput';
+import { ScrollAreaProps } from '../ScrollArea';
 import { filterPickedTags } from './filter-picked-tags';
 import { getSplittedTags } from './get-splitted-tags';
 
@@ -90,13 +91,16 @@ export interface TagsInputProps
   clearButtonProps?: __CloseButtonProps & ElementProps<'button'>;
 
   /** Props passed down to the hidden input */
-  hiddenInputProps?: React.ComponentPropsWithoutRef<'input'>;
+  hiddenInputProps?: Omit<React.ComponentPropsWithoutRef<'input'>, 'value'>;
 
   /** Divider used to separate values in the hidden input `value` attribute, `','` by default */
   hiddenInputValuesDivider?: string;
 
   /** A function to render content of the option, replaces the default content of the option */
   renderOption?: (input: ComboboxLikeRenderOptionInput<ComboboxStringItem>) => React.ReactNode;
+
+  /** Props passed down to the underlying `ScrollArea` component in the dropdown */
+  scrollAreaProps?: ScrollAreaProps;
 }
 
 export type TagsInputFactory = Factory<{
@@ -183,6 +187,7 @@ export const TagsInput = factory<TagsInputFactory>((_props, ref) => {
     renderOption,
     onRemove,
     onClear,
+    scrollAreaProps,
     ...others
   } = props;
 
@@ -306,6 +311,7 @@ export const TagsInput = factory<TagsInputFactory>((_props, ref) => {
         onRemove?.(item);
       }}
       unstyled={unstyled}
+      disabled={disabled}
       {...getStyles('pill')}
     >
       {item}
@@ -421,13 +427,14 @@ export const TagsInput = factory<TagsInputFactory>((_props, ref) => {
           unstyled={unstyled}
           labelId={`${_id}-label`}
           renderOption={renderOption}
+          scrollAreaProps={scrollAreaProps}
         />
       </Combobox>
-      <input
-        type="hidden"
+      <Combobox.HiddenInput
         name={name}
         form={form}
-        value={_value.join(hiddenInputValuesDivider)}
+        value={_value}
+        valuesDivider={hiddenInputValuesDivider}
         disabled={disabled}
         {...hiddenInputProps}
       />

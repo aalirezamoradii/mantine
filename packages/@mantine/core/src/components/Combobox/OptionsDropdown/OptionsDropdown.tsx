@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'clsx';
 import { CheckIcon } from '../../Checkbox';
-import { ScrollArea } from '../../ScrollArea/ScrollArea';
+import { ScrollArea, ScrollAreaProps } from '../../ScrollArea/ScrollArea';
 import { Combobox } from '../Combobox';
 import { ComboboxItem, ComboboxLikeRenderOptionInput, ComboboxParsedItem } from '../Combobox.types';
 import { defaultOptionsFilter, FilterOptionsInput } from './default-options-filter';
@@ -79,6 +79,7 @@ function Option({
       unstyled={unstyled}
       withCheckIcon={withCheckIcon}
       checkIconPosition={checkIconPosition}
+      renderOption={renderOption}
     />
   ));
 
@@ -102,6 +103,7 @@ export interface OptionsDropdownProps {
   unstyled: boolean | undefined;
   labelId: string;
   renderOption?: (input: ComboboxLikeRenderOptionInput<any>) => React.ReactNode;
+  scrollAreaProps: ScrollAreaProps | undefined;
 }
 
 export function OptionsDropdown({
@@ -121,6 +123,7 @@ export function OptionsDropdown({
   unstyled,
   labelId,
   renderOption,
+  scrollAreaProps,
 }: OptionsDropdownProps) {
   validateOptions(data);
 
@@ -155,6 +158,7 @@ export function OptionsDropdown({
             type="scroll"
             scrollbarSize="var(--combobox-padding)"
             offsetScrollbars="y"
+            {...scrollAreaProps}
           >
             {options}
           </ScrollArea.Autosize>

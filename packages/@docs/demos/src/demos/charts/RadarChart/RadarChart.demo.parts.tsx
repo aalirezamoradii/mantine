@@ -5,14 +5,15 @@ import { multiData, multiDataCode } from './_data';
 
 const code = `
 import { RadarChart } from '@mantine/charts';
+import { data } from './data';
 
-function Wrapper() {
+
+function Demo() {
   return (
     <RadarChart
       h={300}
-      data={multiData}
+      data={data}
       dataKey="product"
-      withPolarRadiusAxis
       series={[
         { name: 'sales_january', color: 'lime.4', opacity: 0.1 },
         { name: 'sales_february', color: 'cyan.4', opacity: 0.1 },
@@ -23,7 +24,7 @@ function Wrapper() {
 }
 `;
 
-function Wrapper(props: any) {
+function Demo(props: any) {
   return (
     <RadarChart
       h={300}
@@ -41,7 +42,7 @@ function Wrapper(props: any) {
 
 export const parts: MantineDemo = {
   type: 'configurator',
-  component: Wrapper,
+  component: Demo,
   code: [
     { code, language: 'tsx', fileName: 'Demo.tsx' },
     { code: multiDataCode, language: 'tsx', fileName: 'data.ts' },

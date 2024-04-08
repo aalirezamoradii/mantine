@@ -11,7 +11,7 @@ import {
 } from '@mantine/core';
 import { ModalsProvider } from '@mantine/modals';
 import { ShikiProvider } from '@mantinex/shiki';
-import { theme } from '../docs/theme';
+import { theme } from '../apps/mantine.dev/theme';
 
 export const parameters = { layout: 'fullscreen' };
 
@@ -52,9 +52,10 @@ function DirectionWrapper({ children }: { children: React.ReactNode }) {
 }
 
 async function loadShiki() {
-  const { getHighlighter } = await import('shikiji');
+  const { getHighlighter } = await import('shiki');
   const shiki = await getHighlighter({
     langs: ['tsx', 'scss', 'html', 'bash', 'json'],
+    themes: [],
   });
 
   return shiki;
