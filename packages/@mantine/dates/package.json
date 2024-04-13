@@ -45,8 +45,8 @@
     "type": "git"
   },
   "peerDependencies": {
-    "@mantine/core": "7.7.1",
-    "@mantine/hooks": "7.7.1",
+    "@mantine/core": "7.8.0",
+    "@mantine/hooks": "7.8.0",
     "dayjs": ">=1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

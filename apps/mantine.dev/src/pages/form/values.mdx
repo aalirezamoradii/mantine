@@ -12,6 +12,7 @@ In most cases you should set `initialValues`:
 import { useForm } from '@mantine/form';
 
 const form = useForm({
+  mode: 'uncontrolled',
   initialValues: {
     name: '',
     email: '',
@@ -33,11 +34,12 @@ With `form.setValues` you can set all form values, for example you can set value
 import { useForm } from '@mantine/form';
 
 const form = useForm({
+  mode: 'uncontrolled',
   initialValues: { name: '', email: '', age: 0 },
 });
 
 form.setValues({ name: 'John', age: 21 });
-form.values; // -> { name: 'John', email: '', age: 21 }
+form.getValues(); // -> { name: 'John', email: '', age: 21 }
 ```
 
 ## Initialize form
@@ -64,6 +66,7 @@ function Demo() {
   });
 
   const form = useForm({
+    mode: 'uncontrolled',
     initialValues: {
       name: '',
       email: '',
@@ -108,6 +111,7 @@ import { useForm } from '@mantine/form';
 
 function Demo() {
   const form = useForm({
+    mode: 'uncontrolled',
     initialValues: {
       name: '',
       email: '',
@@ -139,13 +143,14 @@ For example, it can be used to merge several fields into one or to convert types
 
 You can get transformed values outside of `form.onSubmit` method by calling `form.getTransformedValues`.
 It accepts `values` that need to be transformed as optional argument, if it is not provided, then
-the result of `form.values` transformation will be returned instead:
+the result of `form.getValues()` transformation will be returned instead:
 
 ```tsx
 import { useForm } from '@mantine/form';
 
 function Demo() {
   const form = useForm({
+    mode: 'uncontrolled',
     initialValues: {
       firstName: 'John',
       lastName: 'Doe',
@@ -161,6 +166,40 @@ function Demo() {
     firstName: 'Jane',
     lastName: 'Loe',
   }); // { fullName: 'Jane Loe' }
+}
+```
+
+## onValuesChange
+
+`onValuesChange` function is called every time form values change, use it
+instead of `useEffect` to subscribe to form values changes:
+
+<Demo data={FormDemos.onValuesChange} />
+
+## form.watch
+
+`form.watch` is an effect function that allows subscribing to changes of a
+specific form field. It accepts field path and a callback function that is
+called with new value, previous value, touched and dirty field states:
+
+<Demo data={FormDemos.watch} />
+
+Note that `form.watch` uses `useEffect` under the hood – all hooks rules apply.
+For example, you cannot use `form.watch` conditionally or inside loops.
+
+```tsx
+function Demo() {
+  const form = useForm({
+    mode: 'uncontrolled',
+    initialValues: { name: '' },
+  });
+
+  // ❌ This will not work
+  if (Math.random() > 0.5) {
+    form.watch('name', ({ previousValue, value, touched, dirty }) => {
+      console.log({ previousValue, value, touched, dirty });
+    });
+  }
 }
 ```
 
@@ -190,6 +229,7 @@ import { TransformedValues, useForm } from '@mantine/form';
 
 function Demo() {
   const form = useForm({
+    mode: 'uncontrolled',
     initialValues: {
       name: '',
       locationId: '2',
@@ -234,6 +274,7 @@ interface FormValues {
 
 function Demo() {
   const form = useForm<FormValues>({
+    mode: 'uncontrolled',
     initialValues: {
       name: '',
       role: 'user',

@@ -1,4 +1,5 @@
 export type GetInputPropsType = 'input' | 'checkbox';
+export type FormMode = 'controlled' | 'uncontrolled';
 
 export type FormStatus = Record<string, boolean>;
 
@@ -98,7 +99,8 @@ export type SetFieldValue<Values> = <Field extends LooseKeys<Values>>(
   path: Field,
   value:
     | PathValue<Values, Field>
-    | ((prevValue: PathValue<Values, Field>) => PathValue<Values, Field>)
+    | ((prevValue: PathValue<Values, Field>) => PathValue<Values, Field>),
+  options?: { forceUpdate: boolean }
 ) => void;
 
 export type ClearFieldError = (path: unknown) => void;
@@ -113,6 +115,16 @@ export type ValidateField<Values> = <Field extends LooseKeys<Values>>(
 export type SetFieldError<Values> = <Field extends LooseKeys<Values>>(
   path: Field,
   error: React.ReactNode
+) => void;
+
+export type SetFieldTouched<Values> = <Field extends LooseKeys<Values>>(
+  path: Field,
+  touched: boolean
+) => void;
+
+export type SetFieldDirty<Values> = <Field extends LooseKeys<Values>>(
+  path: Field,
+  dirty: boolean
 ) => void;
 
 export type ReorderListItem<Values> = <Field extends LooseKeys<Values>>(
@@ -133,6 +145,7 @@ export type RemoveListItem<Values> = <Field extends LooseKeys<Values>>(
 
 export type GetFieldStatus<Values> = <Field extends LooseKeys<Values>>(path?: Field) => boolean;
 export type ResetStatus = () => void;
+export type GetStatus = () => FormStatus;
 
 export type ResetDirty<Values> = (values?: Values) => void;
 export type IsValid<Values> = <Field extends LooseKeys<Values>>(path?: Field) => boolean;
@@ -140,11 +153,24 @@ export type Initialize<Values> = (values: Values) => void;
 
 export type _TransformValues<Values> = (values: Values) => unknown;
 
+export type FormFieldSubscriber<Values, Field extends LooseKeys<Values>> = (input: {
+  previousValue: PathValue<Values, Field>;
+  value: PathValue<Values, Field>;
+  touched: boolean;
+  dirty: boolean;
+}) => void;
+
+export type Watch<Values> = <Field extends LooseKeys<Values>>(
+  path: Field,
+  subscriber: FormFieldSubscriber<Values, Field>
+) => void;
+
 export interface UseFormInput<
   Values,
   TransformValues extends _TransformValues<Values> = (values: Values) => Values,
 > {
   name?: string;
+  mode?: FormMode;
   initialValues?: Values;
   initialErrors?: FormErrors;
   initialTouched?: FormStatus;
@@ -195,6 +221,10 @@ export interface UseFormReturnType<
   resetDirty: ResetDirty<Values>;
   isValid: IsValid<Values>;
   getTransformedValues: GetTransformedValues<Values, TransformValues>;
+  getValues: () => Values;
+  getTouched: GetStatus;
+  getDirty: GetStatus;
+  watch: Watch<Values>;
 }
 
 export type UseForm<

@@ -7,6 +7,8 @@ module.exports = {
     'jest/valid-title': 'off',
     'wrap-iife': 'off',
     'import/no-relative-packages': 'off',
+    'no-spaced-func': 'off',
+    'consistent-return': 'off',
   },
   parserOptions: {
     project: './tsconfig.eslint.json',
