@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import React from 'react';
+
 import { Box, Button, Checkbox, Group, TextInput } from '@mantine/core';
 import { useForm } from '@mantine/form';
 import { MantineDemo } from '@mantinex/demo';
@@ -28,12 +28,14 @@ function Demo() {
           withAsterisk
           label="Email"
           placeholder="your@email.com"
+          key={form.key('email')}
           {...form.getInputProps('email')}
         />
 
         <Checkbox
           mt="md"
           label="I agree to sell my privacy"
+          key={form.key('termsOfService')}
           {...form.getInputProps('termsOfService', { type: 'checkbox' })}
         />
 
@@ -66,12 +68,14 @@ function Demo() {
           withAsterisk
           label="Email"
           placeholder="your@email.com"
+          key={form.key('email')}
           {...form.getInputProps('email')}
         />
 
         <Checkbox
           mt="md"
           label="I agree to sell my privacy"
+          key={form.key('termsOfService')}
           {...form.getInputProps('termsOfService', { type: 'checkbox' })}
         />
 

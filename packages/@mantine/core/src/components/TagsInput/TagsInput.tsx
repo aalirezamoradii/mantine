@@ -1,4 +1,3 @@
-import React from 'react';
 import { useId, useUncontrolled } from '@mantine/hooks';
 import {
   BoxProps,
@@ -54,13 +53,13 @@ export interface TagsInputProps
   /** Default value for uncontrolled component */
   defaultValue?: string[];
 
-  /** Called whe value changes */
+  /** Called when value changes */
   onChange?: (value: string[]) => void;
 
   /** Called when tag is removed */
   onRemove?: (value: string) => void;
 
-  /** Called whe the clear button is clicked */
+  /** Called when the clear button is clicked */
   onClear?: () => void;
 
   /** Controlled search value */
@@ -430,7 +429,8 @@ export const TagsInput = factory<TagsInputFactory>((_props, ref) => {
           withScrollArea={withScrollArea}
           maxDropdownHeight={maxDropdownHeight}
           unstyled={unstyled}
-          labelId={`${_id}-label`}
+          labelId={label ? `${_id}-label` : undefined}
+          aria-label={label ? undefined : others['aria-label']}
           renderOption={renderOption}
           scrollAreaProps={scrollAreaProps}
         />

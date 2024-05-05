@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import React from 'react';
+
+import { useState } from 'react';
 import { Button, Checkbox, Group, NativeSelect, Select, Textarea, TextInput } from '@mantine/core';
 import { useForm } from '../use-form';
 import { FormBase } from './_base';
@@ -7,7 +8,7 @@ import { FormBase } from './_base';
 export default { title: 'Form' };
 
 export function Usage() {
-  const [counter, setCounter] = React.useState(0);
+  const [counter, setCounter] = useState(0);
   const form = useForm({
     mode: 'uncontrolled',
     validateInputOnChange: true,
@@ -109,16 +110,18 @@ export function ControlMode() {
         label="select"
         defaultDropdownOpened
         data={['React', 'Angular']}
+        key={form.key('select')}
         {...form.getInputProps('select')}
       />
 
-      <TextInput label="Name" {...form.getInputProps('name')} />
+      <TextInput label="Name" key={form.key('name')} {...form.getInputProps('name')} />
       <Checkbox
         mt="md"
         label="Accept terms of use"
+        key={form.key('terms')}
         {...form.getInputProps('terms', { type: 'checkbox' })}
       />
-      <Textarea label="area" {...form.getInputProps('area')} />
+      <Textarea label="area" key={form.key('area')} {...form.getInputProps('area')} />
       <Group mt="xl">
         <Button onClick={() => form.setFieldValue('name', 'test-name')}>Set name</Button>
         <Button
