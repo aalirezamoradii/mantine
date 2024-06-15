@@ -1,10 +1,10 @@
 {
-  "name": "mantine-dates-jalali",
-  "version": "7.10.0",
+  "name": "@mantine/dates",
+  "version": "7.10.2",
   "description": "Calendars, date and time pickers based on Mantine components",
-  "homepage": "https://github.com/aalirezamoradii/mantine",
+  "homepage": "https://mantine.dev/dates/getting-started/",
   "license": "MIT",
-  "author": "Alireza Moradi <aalirezamoradii@gmail.com>",
+  "author": "Vitaly Rtishchev <rtivital@gmail.com>",
   "keywords": [
     "calendar",
     "components",
@@ -45,8 +45,8 @@
     "type": "git"
   },
   "peerDependencies": {
-    "@mantine/core": "7.10.0",
-    "@mantine/hooks": "7.10.0",
+    "@mantine/core": "7.10.2",
+    "@mantine/hooks": "7.10.2",
     "dayjs": ">=1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
