@@ -1,10 +1,10 @@
 {
-  "name": "@mantine/dates",
+  "name": "mantine-dates-jalali",
   "version": "7.10.2",
   "description": "Calendars, date and time pickers based on Mantine components",
-  "homepage": "https://mantine.dev/dates/getting-started/",
+  "homepage": "https://github.com/aalirezamoradii/mantine",
   "license": "MIT",
-  "author": "Vitaly Rtishchev <rtivital@gmail.com>",
+  "author": "Alireza Moradi <aalirezamoradii@gmail.com>",
   "keywords": [
     "calendar",
     "components",
