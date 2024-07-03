@@ -30,6 +30,7 @@ describe('@mantine/core/Select', () => {
     mod: true,
     styleProps: true,
     extend: true,
+    withProps: true,
     size: true,
     variant: true,
     classes: true,
@@ -110,6 +111,12 @@ describe('@mantine/core/Select', () => {
     await userEvent.click(screen.getByRole('textbox'));
     await userEvent.type(screen.getByRole('textbox'), 'test-3');
     expect(screen.getByText('Nothing found')).toBeVisible();
+  });
+
+  it('displays the nothing found message if there is no data', async () => {
+    render(<Select {...defaultProps} data={[]} nothingFoundMessage="No data" />);
+    await userEvent.click(screen.getByRole('textbox'));
+    expect(screen.getByText('No data')).toBeVisible();
   });
 
   it('allows controlling search value with searchValue prop', async () => {
