@@ -1,5 +1,5 @@
 {
-  "name": "@mantine/dates",
+  "name": "mantine-dates-jalali",
   "version": "7.12.1",
   "description": "Calendars, date and time pickers based on Mantine components",
   "homepage": "https://github.com/aalirezamoradii/mantine",
