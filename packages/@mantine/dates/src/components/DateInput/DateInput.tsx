@@ -244,8 +244,8 @@ export const DateInput = factory<DateInputFactory>((_props, ref) => {
     ) : null);
 
   useDidUpdate(() => {
-    value !== undefined && !dropdownOpened && setInputValue(formatValue(value!));
-  }, [value]);
+    _value !== undefined && !dropdownOpened && setInputValue(formatValue(_value!));
+  }, [_value]);
 
   return (
     <>

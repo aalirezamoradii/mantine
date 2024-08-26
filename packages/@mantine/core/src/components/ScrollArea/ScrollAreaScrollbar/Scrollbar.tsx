@@ -83,6 +83,7 @@ export const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>((props, forw
       <div
         {...scrollbarProps}
         ref={composeRefs}
+        data-mantine-scrollbar
         style={{ position: 'absolute', ...scrollbarProps.style }}
         onPointerDown={composeEventHandlers(props.onPointerDown, (event) => {
           event.preventDefault();
@@ -94,7 +95,6 @@ export const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>((props, forw
             rectRef.current = scrollbar!.getBoundingClientRect();
             prevWebkitUserSelectRef.current = document.body.style.webkitUserSelect;
             document.body.style.webkitUserSelect = 'none';
-            document.body.style.pointerEvents = 'none';
             handleDragScroll(event);
           }
         })}
@@ -107,7 +107,6 @@ export const Scrollbar = forwardRef<HTMLDivElement, ScrollbarProps>((props, forw
             element.releasePointerCapture(event.pointerId);
           }
           document.body.style.webkitUserSelect = prevWebkitUserSelectRef.current;
-          document.body.style.pointerEvents = 'auto';
           rectRef.current = null;
         })}
       />

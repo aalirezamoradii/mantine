@@ -40,11 +40,11 @@ function getOS(): OS {
 
   const { userAgent } = window.navigator;
 
+  if (isIOS(userAgent) || (isMacOS(userAgent) && 'ontouchend' in document)) {
+    return 'ios';
+  }
   if (isMacOS(userAgent)) {
     return 'macos';
-  }
-  if (isIOS(userAgent)) {
-    return 'ios';
   }
   if (isWindows(userAgent)) {
     return 'windows';
