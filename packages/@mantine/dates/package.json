@@ -1,5 +1,5 @@
 {
-  "name": "mantine-dates-jalali",
+  "name": "@mantine/dates",
   "version": "7.12.1",
   "description": "Calendars, date and time pickers based on Mantine components",
   "homepage": "https://github.com/aalirezamoradii/mantine",
@@ -52,6 +52,7 @@
     "react-dom": "^18.2.0"
   },
   "dependencies": {
+    "@zoomit/dayjs-jalali-plugin": "^0.0.7",
     "clsx": "^2.1.1"
   },
   "devDependencies": {

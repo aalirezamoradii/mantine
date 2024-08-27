@@ -1,5 +1,8 @@
 import dayjs from 'dayjs';
+import jalaliday from '@zoomit/dayjs-jalali-plugin';
 import type { DayOfWeek } from '../../../types';
+
+dayjs.extend(jalaliday);
 
 interface GetWeekdaysNamesInput {
   locale: string;
@@ -12,7 +15,7 @@ export function getWeekdayNames({
   format = 'dd',
   firstDayOfWeek = 1,
 }: GetWeekdaysNamesInput) {
-  const baseDate = dayjs().day(firstDayOfWeek);
+  const baseDate = dayjs().calendar('gregory').day(firstDayOfWeek);
   const labels: Array<string | React.ReactNode> = [];
 
   for (let i = 0; i < 7; i += 1) {
