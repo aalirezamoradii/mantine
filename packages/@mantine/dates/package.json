@@ -1,6 +1,6 @@
 {
-  "name": "mantine-dates-jalali",
-  "version": "7.12.4",
+  "name": "@mantine/dates",
+  "version": "7.12.2",
   "description": "Calendars, date and time pickers based on Mantine components",
   "homepage": "https://github.com/aalirezamoradii/mantine",
   "license": "MIT",
@@ -45,14 +45,13 @@
     "type": "git"
   },
   "peerDependencies": {
-    "@mantine/core": "7.12.1",
-    "@mantine/hooks": "7.12.1",
+    "@mantine/core": "7.12.2",
+    "@mantine/hooks": "7.12.2",
     "dayjs": ">=1.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "dependencies": {
-    "@zoomit/dayjs-jalali-plugin": "^0.0.7",
     "clsx": "^2.1.1"
   },
   "devDependencies": {
