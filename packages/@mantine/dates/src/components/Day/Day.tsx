@@ -124,7 +124,7 @@ export const Day = factory<DayFactory>((_props, ref) => {
       ref={ref}
       disabled={disabled}
       data-today={
-        dayjs(date).isSame(shiftTimezone('add', new Date(), ctx.getTimezone()), 'day') || undefined
+        dayjs(date).isSame(shiftTimezone('add', ctx.getLocale() === 'fa' ? dayjs().toDate() : new Date(), ctx.getTimezone()), 'day') || undefined
       }
       data-hidden={hidden || undefined}
       data-highlight-today={highlightToday || undefined}
@@ -139,12 +139,7 @@ export const Day = factory<DayFactory>((_props, ref) => {
       unstyled={unstyled}
       {...others}
     >
-      {renderDay?.(date) || (
-        ctx.getLocale() === 'fa'
-          ? new Intl.DateTimeFormat('fa-IR', { day: 'numeric' }).format(date)
-          : date.getDate()
-        )
-      }
+      {renderDay?.(date) || (ctx.getLocale() === 'fa' ? dayjs(date).format('D') : date.getDate())}
     </UnstyledButton>
   );
 });

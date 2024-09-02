@@ -148,10 +148,7 @@ export const YearsList = factory<YearsListFactory>((_props, ref) => {
             }}
             tabIndex={__preventFocus || !isYearInTabOrder ? -1 : 0}
           >
-            {ctx.getLocale(locale) === 'fa'
-                ? new Intl.DateTimeFormat('fa-IR', { year: 'numeric' }).format(year)
-                : dayjs(year).locale(ctx.getLocale(locale)).format(yearsListFormat)
-            }
+            {dayjs(year).locale(ctx.getLocale(locale)).format(yearsListFormat)}
           </PickerControl>
         </td>
       );

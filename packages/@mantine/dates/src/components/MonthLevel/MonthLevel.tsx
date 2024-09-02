@@ -134,13 +134,11 @@ export const MonthLevel = factory<MonthLevelFactory>((_props, ref) => {
     <Box data-month-level size={size} ref={ref} {...others}>
       <CalendarHeader
         label={
-          ctx.getLocale(locale) === 'fa'
-              ? new Intl.DateTimeFormat('fa-IR', { month: 'short' }).format(month)
-              : typeof monthLabelFormat === 'function'
-                  ? monthLabelFormat(month)
-                  : dayjs(month)
-                      .locale(locale || ctx.locale)
-                      .format(monthLabelFormat)
+          typeof monthLabelFormat === 'function'
+            ? monthLabelFormat(month)
+            : dayjs(month)
+              .locale(locale || ctx.locale)
+              .format(monthLabelFormat)
         }
         __preventFocus={__preventFocus}
         __stopPropagation={__stopPropagation}

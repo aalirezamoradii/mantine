@@ -156,10 +156,7 @@ export const MonthsList = factory<MonthsListFactory>((_props, ref) => {
             }}
             tabIndex={__preventFocus || !isMonthInTabOrder ? -1 : 0}
           >
-            {ctx.getLocale(locale) === 'fa'
-                ? new Intl.DateTimeFormat('fa-IR', { month: 'short' }).format(month)
-                : dayjs(month).locale(ctx.getLocale(locale)).format(monthsListFormat)
-            }
+            {dayjs(month).locale(ctx.getLocale(locale)).format(monthsListFormat)}
           </PickerControl>
         </td>
       );

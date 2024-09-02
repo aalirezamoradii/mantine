@@ -122,13 +122,11 @@ export const YearLevel = factory<YearLevelFactory>((_props, ref) => {
     <Box data-year-level size={size} ref={ref} {...others}>
       <CalendarHeader
         label={
-          ctx.getLocale(locale)=== 'fa'
-              ? new Intl.DateTimeFormat('fa-IR', { year: 'numeric' }).format(year)
-              : typeof yearLabelFormat === 'function'
-                  ? yearLabelFormat(year)
-                  : dayjs(year)
-                      .locale(locale || ctx.locale)
-                      .format(yearLabelFormat)
+          typeof yearLabelFormat === 'function'
+            ? yearLabelFormat(year)
+            : dayjs(year)
+              .locale(locale || ctx.locale)
+              .format(yearLabelFormat)
         }
         __preventFocus={__preventFocus}
         __stopPropagation={__stopPropagation}

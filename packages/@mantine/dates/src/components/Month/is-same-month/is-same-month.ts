@@ -1,16 +1,12 @@
+import dayjs from 'dayjs';
+
 export function isSameMonth(date: Date, comparison: Date, locale?: string) {
     function year(yearDate: any) {
-        return parseInt(
-            new Intl.DateTimeFormat('en-US-u-ca-persian', { year: 'numeric' }).format(yearDate),
-            10
-        );
+        return dayjs(yearDate).year();
     }
 
     function month(monthDate: any) {
-        return parseInt(
-            new Intl.DateTimeFormat('en-US-u-ca-persian', { month: 'numeric' }).format(monthDate),
-            10
-        );
+        return dayjs(monthDate).month();
     }
 
     return locale && locale === 'fa'

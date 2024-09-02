@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { DayOfWeek } from '../../../types';
 import { getEndOfWeek } from '../get-end-of-week/get-end-of-week';
 import { getStartOfWeek } from '../get-start-of-week/get-start-of-week';
@@ -9,25 +10,12 @@ interface GetMonthDaysInput {
   locale?: string;
 }
 
-export function getMonthDays({
-  month,
-  firstDayOfWeek = 1,
-  consistentWeeks,
-  locale,
-}: GetMonthDaysInput): Date[][] {
-  const startOfMonthJalali: any = (date: any) => {
-    const dayDateJalali = parseInt(new Intl.DateTimeFormat('en-US-u-ca-persian', { day: 'numeric' }).format(date), 10);
-    const d = dayDateJalali - 1;
-    return date.setDate(date.getDate() - d);
-  };
+export function getMonthDays(_props: GetMonthDaysInput): Date[][] {
+  const { month, firstDayOfWeek = 1, consistentWeeks, locale } = _props;
 
-  const endOfMonthJalali: any = (date: any) => {
-    const daysMonthJalali = [0, 31, 31, 31, 31, 31, 31, 30, 30, 30, 30, 30, 29];
-    const dayDateJalali = parseInt(new Intl.DateTimeFormat('en-US-u-ca-persian', { day: 'numeric' }).format(date), 10);
-    const monthJalali = parseInt(new Intl.DateTimeFormat('en-US-u-ca-persian', { month: 'numeric' }).format(date), 10);
-    const d = daysMonthJalali[monthJalali] - dayDateJalali;
-    return date.setDate(date.getDate() + d);
-  };
+  const startOfMonthJalali: any = (date: any) => dayjs(date).startOf('month').toDate();
+
+  const endOfMonthJalali: any = (date: any) => dayjs(date).endOf('month').toDate();
 
   const currentMonth = month.getMonth();
   const startOfMonth = locale && locale === 'fa'

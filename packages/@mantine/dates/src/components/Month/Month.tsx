@@ -179,7 +179,7 @@ export const Month = factory<MonthFactory>((_props, ref) => {
     month,
     firstDayOfWeek: ctx.getFirstDayOfWeek(firstDayOfWeek),
     consistentWeeks: ctx.consistentWeeks,
-    locale: ctx.getLocale(locale)
+    locale: ctx.getLocale(locale),
   });
 
   const dateInTabOrder = getDateInTabOrder(
