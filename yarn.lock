@@ -5489,7 +5489,6 @@ __metadata:
     "@mantine-tests/dates": "workspace:*"
     "@mantine/core": "workspace:*"
     "@mantine/hooks": "workspace:*"
-    "@zoomit/dayjs-jalali-plugin": "npm:^0.0.7"
     clsx: "npm:^2.1.1"
   peerDependencies:
     "@mantine/core": 7.12.2
@@ -8810,13 +8809,6 @@ __metadata:
     "@types/emscripten": "npm:^1.39.6"
     tslib: "npm:^1.13.0"
   checksum: 10c0/0c2361ccb002e28463ed98541f3bdaab54f52aad6a2080666c2a9ea605ebd9cdfb7b0340b1db6f105820d05bcb803cdfb3ce755a8f6034657298c291bf884f81
-  languageName: node
-  linkType: hard
-
-"@zoomit/dayjs-jalali-plugin@npm:^0.0.7":
-  version: 0.0.7
-  resolution: "@zoomit/dayjs-jalali-plugin@npm:0.0.7"
-  checksum: 10c0/cc987b0e834d770fd15293bbcfbcca0354db5e90af6cc7701cf50cab5d2a94d1f05f4f49d68fd08e3132a2f8329c03c8ccdfd7dd1249049e0cd4c723f3696dd9
   languageName: node
   linkType: hard
 
