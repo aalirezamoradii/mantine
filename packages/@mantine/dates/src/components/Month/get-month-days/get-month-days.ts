@@ -13,9 +13,9 @@ interface GetMonthDaysInput {
 export function getMonthDays(_props: GetMonthDaysInput): Date[][] {
   const { month, firstDayOfWeek = 1, consistentWeeks, locale } = _props;
 
-  const startOfMonthJalali: any = (date: any) => dayjs(date).startOf('month').toDate();
+  const startOfMonthJalali = (date: Date) => dayjs(date).startOf('month').set('hours', 0).toDate();
 
-  const endOfMonthJalali: any = (date: any) => dayjs(date).endOf('month').toDate();
+  const endOfMonthJalali = (date: Date) => dayjs(date).endOf('month').set('hours', 0).toDate();
 
   const currentMonth = month.getMonth();
   const startOfMonth = locale && locale === 'fa'
